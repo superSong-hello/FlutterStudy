@@ -67,11 +67,11 @@ class _TodoListScreenState extends State<TodoListScreen> {
   }
 
   Widget buildAddTodoTextField() {
-    return Form(
-      key: _addFormKey,
-      child: Row(
-        children: [
-          Expanded(
+    return Row(
+      children: [
+        Expanded(
+          child: Form(
+            key: _addFormKey,
             child: TextFormField(
               controller: _addFormController,
               validator: _createTodoValidator,
@@ -80,20 +80,20 @@ class _TodoListScreenState extends State<TodoListScreen> {
               ),
             ),
           ),
-          IconButton(
-            onPressed: () {
-              if (_addFormKey.currentState!.validate()) {
-                setState(() {
-                  todoList.add(_addFormController.text);
-                  FocusScope.of(context).unfocus();
-                  _addFormController.clear();
-                });
-              }
-            },
-            icon: const Icon(Icons.add),
-          )
-        ],
-      ),
+        ),
+        IconButton(
+          onPressed: () {
+            if (_addFormKey.currentState!.validate()) {
+              setState(() {
+                todoList.add(_addFormController.text);
+                FocusScope.of(context).unfocus();
+                _addFormController.clear();
+              });
+            }
+          },
+          icon: const Icon(Icons.add),
+        )
+      ],
     );
   }
 
