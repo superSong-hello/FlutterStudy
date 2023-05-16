@@ -12,23 +12,24 @@ class _CounterScreenState extends State<CounterScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            _counter.toString(),
-            style: Theme.of(context).textTheme.displaySmall,
-          ),
-          IconButton(
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          _counter.toString(),
+          style: Theme.of(context).textTheme.displaySmall,
+          textAlign: TextAlign.center,
+        ),
+        Center(
+          child: IconButton(
             onPressed: _incrementCount,
             icon: Icon(
               Icons.add,
               color: Theme.of(context).colorScheme.primary,
             ),
-          )
-        ],
-      ),
+          ),
+        )
+      ],
     );
   }
 
