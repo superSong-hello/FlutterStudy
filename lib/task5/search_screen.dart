@@ -1,0 +1,134 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_study/api/github.dart';
+import 'package:flutter_study/task5/repository_screen.dart';
+
+class SearchScreen extends StatefulWidget {
+  const SearchScreen({super.key});
+
+  @override
+  State<SearchScreen> createState() => _SearchScreenState();
+}
+
+class _SearchScreenState extends State<SearchScreen> {
+  final _githubApi = GithubApi();
+  bool _isLoading = false;
+  int _currentPage = 1;
+  final List<dynamic> _result = [];
+  final _textEditingController =
+      TextEditingController(text: 'HanGuowei/FlutterStudy');
+  final _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_scrollListener);
+  }
+
+  @override
+  void dispose() {
+    _scrollController
+      ..removeListener(_scrollListener)
+      ..dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.all(10),
+        child: Column(
+          children: [
+            TextField(
+              controller: _textEditingController,
+              decoration: InputDecoration(
+                suffixIcon: IconButton(
+                  onPressed: _searchRepository,
+                  icon: const Icon(Icons.search),
+                ),
+              ),
+            ),
+            Expanded(child: _resultBuild())
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _resultBuild() {
+    return ListView.builder(
+      controller: _scrollController,
+      itemCount: _result.length + 1,
+      itemBuilder: (context, index) {
+        if (index < _result.length) {
+          final item = _result[index] as Map;
+          return ListTile(
+            title: Text(item['full_name'] as String),
+            subtitle: Text(item['description'] as String? ?? ''),
+            onTap: () {
+              _navToRepositoryScreen(item['full_name'] as String);
+            },
+          );
+        } else {
+          if (_isLoading) {
+            return const Center(
+              child: Padding(
+                padding: EdgeInsets.all(5),
+                child: CircularProgressIndicator(),
+              ),
+            );
+          } else {
+            return null;
+          }
+        }
+      },
+    );
+  }
+
+  void _scrollListener() {
+    if (_scrollController.offset >=
+            _scrollController.position.maxScrollExtent &&
+        !_scrollController.position.outOfRange) {
+      if (_isLoading) {
+        _isLoading = false;
+      } else {
+        _isLoading = true;
+        _loadMoreData();
+      }
+    }
+  }
+
+  Future<void> _loadMoreData() async {
+    final data = await _githubApi.searchRepository(
+      _textEditingController.text,
+      _currentPage,
+      100,
+    );
+    _currentPage++;
+    setState(() {
+      _result.addAll(data['items'] as List);
+    });
+  }
+
+  void _navToRepositoryScreen(String fullName) {
+    Navigator.of(context).push(
+      MaterialPageRoute<RepositoryScreen>(
+        builder: (context) => RepositoryScreen(
+          fullName: fullName,
+        ),
+      ),
+    );
+  }
+
+  Future<void> _searchRepository() async {
+    _currentPage = 1;
+    setState(() {
+      _result.clear();
+      _isLoading = true;
+    });
+    await _loadMoreData();
+    setState(() {
+      _isLoading = false;
+    });
+  }
+}
