@@ -37,22 +37,20 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: TextField(
+          controller: _textEditingController,
+          decoration: InputDecoration(
+            suffixIcon: IconButton(
+              onPressed: _searchRepository,
+              icon: const Icon(Icons.search),
+            ),
+          ),
+        ),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(10),
-        child: Column(
-          children: [
-            TextField(
-              controller: _textEditingController,
-              decoration: InputDecoration(
-                suffixIcon: IconButton(
-                  onPressed: _searchRepository,
-                  icon: const Icon(Icons.search),
-                ),
-              ),
-            ),
-            Expanded(child: _resultBuild())
-          ],
-        ),
+        child: Expanded(child: _resultBuild()),
       ),
     );
   }
