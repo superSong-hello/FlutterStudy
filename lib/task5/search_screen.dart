@@ -30,6 +30,7 @@ class _SearchScreenState extends State<SearchScreen> {
     _scrollController
       ..removeListener(_scrollListener)
       ..dispose();
+    _textEditingController.dispose();
     super.dispose();
   }
 

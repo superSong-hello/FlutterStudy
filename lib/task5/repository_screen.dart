@@ -41,11 +41,17 @@ class _RepositoryScreenState extends State<RepositoryScreen> {
         appBar: AppBar(
           title: Text(widget.fullName),
           bottom: const TabBar(
-            tabs: [Tab(text: 'Readme'), Tab(text: 'Issues')],
+            tabs: [
+              Tab(text: 'Readme'),
+              Tab(text: 'Issues'),
+            ],
           ),
         ),
         body: TabBarView(
-          children: [_readmeBuild(), _issuesBuild()],
+          children: [
+            _readmeBuild(),
+            _issuesBuild(),
+          ],
         ),
       ),
     );
