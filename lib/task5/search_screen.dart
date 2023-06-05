@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_study/api/github.dart';
+import 'package:flutter_study/task5/api/github.dart';
+import 'package:flutter_study/task5/model/search_result.dart';
 import 'package:flutter_study/task5/repository_screen.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -13,7 +14,7 @@ class _SearchScreenState extends State<SearchScreen> {
   final _githubApi = GithubApi();
   bool _isLoading = false;
   int _currentPage = 1;
-  final List<dynamic> _result = [];
+  final List<RepositoryItem> _result = [];
   final _textEditingController =
       TextEditingController(text: 'HanGuowei/FlutterStudy');
   final _scrollController = ScrollController();
@@ -61,12 +62,12 @@ class _SearchScreenState extends State<SearchScreen> {
       itemCount: _result.length + 1,
       itemBuilder: (context, index) {
         if (index < _result.length) {
-          final item = _result[index] as Map;
+          final item = _result[index];
           return ListTile(
-            title: Text(item['full_name'] as String),
-            subtitle: Text(item['description'] as String? ?? ''),
+            title: Text(item.fullName),
+            subtitle: Text(item.description ?? ''),
             onTap: () {
-              _navToRepositoryScreen(item['full_name'] as String);
+              _navToRepositoryScreen(item.fullName);
             },
           );
         } else {
@@ -106,7 +107,7 @@ class _SearchScreenState extends State<SearchScreen> {
     );
     _currentPage++;
     setState(() {
-      _result.addAll(data['items'] as List);
+      _result.addAll(data.items!);
     });
   }
 

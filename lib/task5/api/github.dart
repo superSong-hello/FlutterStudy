@@ -1,4 +1,8 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_study/task5/model/repository_issue.dart';
+import 'package:flutter_study/task5/model/search_result.dart';
+
+import '../model/repository_readme.dart';
 
 class GithubApi {
   static const String baseUrl = 'https://api.github.com';
@@ -11,14 +15,14 @@ class GithubApi {
       },
     );
 
-  Future<Map<String, dynamic>> getRepository(String fullName) async {
+  Future<RepositoryItem> getRepository(String fullName) async {
     final response = await dio.get<Map<String, dynamic>>(
       '/repos/$fullName',
     );
-    return response.data!;
+    return RepositoryItem.fromJson(response.data!);
   }
 
-  Future<Map<String, dynamic>> searchRepository(
+  Future<SearchResult> searchRepository(
     String keyword,
     int page,
     int perPage,
@@ -30,17 +34,17 @@ class GithubApi {
         'per_page': perPage,
       },
     );
-    return response.data!;
+    return SearchResult.fromJson(response.data!);
   }
 
-  Future<Map<String, dynamic>> getRepositoryReadme(String fullName) async {
+  Future<RepositoryReadme> getRepositoryReadme(String fullName) async {
     final response = await dio.get<Map<String, dynamic>>(
       '/repos/$fullName/readme',
     );
-    return response.data!;
+    return RepositoryReadme.fromJson(response.data!);
   }
 
-  Future<List<dynamic>> getRepositoryIssues(
+  Future<List<RepositoryIssue>> getRepositoryIssues(
     String fullName,
     int page,
     int perPage,
@@ -52,6 +56,8 @@ class GithubApi {
         'per_page': perPage,
       },
     );
-    return response.data!;
+    return response.data!
+        .map((e) => RepositoryIssue.fromJson(e as Map<String, dynamic>))
+        .toList();
   }
 }

@@ -2,7 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:flutter_study/api/github.dart';
+import 'package:flutter_study/task5/api/github.dart';
+import 'package:flutter_study/task5/model/repository_issue.dart';
 import 'package:flutter_study/ui_state/load_ui_state_scaffold.dart';
 import 'package:flutter_study/ui_state/ui_state.dart';
 
@@ -20,7 +21,7 @@ class _RepositoryScreenState extends State<RepositoryScreen> {
   LoadUIState _loadReadmeUIState = Loading();
   int _currentIssuePage = 1;
   bool _isIssuesLoading = false;
-  final List<dynamic> _issues = [];
+  final List<RepositoryIssue> _issues = [];
 
   final ScrollController _issuesScrollController = ScrollController();
 
@@ -35,7 +36,7 @@ class _RepositoryScreenState extends State<RepositoryScreen> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 3,
+      length: 2,
       child: Scaffold(
         appBar: AppBar(
           title: Text(widget.fullName),
@@ -65,11 +66,11 @@ class _RepositoryScreenState extends State<RepositoryScreen> {
       controller: _issuesScrollController,
       itemBuilder: (context, index) {
         if (index < _issues.length) {
-          final issue = _issues[index] as Map;
-          final isClosed = (issue['closed_at'] as String?) != null;
+          final issue = _issues[index];
+          final isClosed = issue.state == 'closed';
           return ListTile(
             title: Text(
-              issue['title'] as String,
+              issue.title ?? '',
               overflow: TextOverflow.ellipsis,
               softWrap: false,
             ),
@@ -86,7 +87,7 @@ class _RepositoryScreenState extends State<RepositoryScreen> {
                       ),
                 Expanded(
                   child: Text(
-                    issue['body'] as String? ?? '',
+                    issue.body ?? '',
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                   ),
@@ -112,7 +113,7 @@ class _RepositoryScreenState extends State<RepositoryScreen> {
 
   Future<void> _loadReadme() async {
     final readmeResult = await _githubApi.getRepositoryReadme(widget.fullName);
-    final readmeEncodedContent = readmeResult['content'] as String? ?? '';
+    final readmeEncodedContent = readmeResult.content ?? '';
     final readmeContent = utf8.decode(
       base64.decode(readmeEncodedContent.replaceAll(RegExp(r'\s'), '')),
     );
