@@ -106,7 +106,7 @@ class _SearchScreenState extends State<SearchScreen> {
     );
     _currentPage++;
     setState(() {
-      _result.addAll(data.items!);
+      _result.addAll(data.items);
     });
   }
 

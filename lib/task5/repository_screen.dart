@@ -119,7 +119,7 @@ class _RepositoryScreenState extends State<RepositoryScreen> {
 
   Future<void> _loadReadme() async {
     final readmeResult = await _githubApi.getRepositoryReadme(widget.fullName);
-    final readmeEncodedContent = readmeResult.content ?? '';
+    final readmeEncodedContent = readmeResult.content;
     final readmeContent = utf8.decode(
       base64.decode(readmeEncodedContent.replaceAll(RegExp(r'\s'), '')),
     );
