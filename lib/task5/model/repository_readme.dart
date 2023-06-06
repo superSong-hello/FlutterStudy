@@ -5,6 +5,7 @@ part 'repository_readme.g.dart';
 
 @freezed
 class RepositoryReadme with _$RepositoryReadme {
+  // ignore: invalid_annotation_target
   @JsonSerializable(fieldRename: FieldRename.snake)
   const factory RepositoryReadme({
     required String name,
