@@ -20,7 +20,7 @@ class _RepositoryScreenState extends State<RepositoryScreen> {
   final _githubApi = GithubApi();
   LoadUIState _loadReadmeUIState = Loading();
   int _currentIssuePage = 1;
-  bool _isIssuesLoading = false;
+  bool _isIssuesLoading = true;
   final List<RepositoryIssue> _issues = [];
 
   final ScrollController _issuesScrollController = ScrollController();
@@ -31,6 +31,12 @@ class _RepositoryScreenState extends State<RepositoryScreen> {
     _loadReadme();
     _loadMoreIssues();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _issuesScrollController.dispose();
+    super.dispose();
   }
 
   @override

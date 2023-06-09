@@ -139,8 +139,7 @@ class __$$_RepositoryIssueCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
-@JsonSerializable(fieldRename: FieldRename.snake)
+@JsonSerializable()
 class _$_RepositoryIssue implements _RepositoryIssue {
   const _$_RepositoryIssue(
       {required this.id,

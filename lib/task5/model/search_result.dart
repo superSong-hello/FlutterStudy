@@ -5,8 +5,6 @@ part 'search_result.g.dart';
 
 @freezed
 class SearchResult with _$SearchResult {
-  // ignore: invalid_annotation_target
-  @JsonSerializable(fieldRename: FieldRename.snake)
   const factory SearchResult({
     required List<RepositoryItem> items,
   }) = _SearchResult;
@@ -17,8 +15,6 @@ class SearchResult with _$SearchResult {
 
 @freezed
 class RepositoryItem with _$RepositoryItem {
-  // ignore: invalid_annotation_target
-  @JsonSerializable(fieldRename: FieldRename.snake)
   const factory RepositoryItem({
     required int id,
     required String name,

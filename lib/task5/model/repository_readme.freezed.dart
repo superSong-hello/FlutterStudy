@@ -227,8 +227,7 @@ class __$$_RepositoryReadmeCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
-@JsonSerializable(fieldRename: FieldRename.snake)
+@JsonSerializable()
 class _$_RepositoryReadme implements _RepositoryReadme {
   const _$_RepositoryReadme(
       {required this.name,

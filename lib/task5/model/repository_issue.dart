@@ -5,8 +5,6 @@ part 'repository_issue.g.dart';
 
 @freezed
 class RepositoryIssue with _$RepositoryIssue {
-  // ignore: invalid_annotation_target
-  @JsonSerializable(fieldRename: FieldRename.snake)
   const factory RepositoryIssue({
     required int id,
     required String? title,

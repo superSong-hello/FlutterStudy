@@ -95,8 +95,7 @@ class __$$_SearchResultCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
-@JsonSerializable(fieldRename: FieldRename.snake)
+@JsonSerializable()
 class _$_SearchResult implements _SearchResult {
   const _$_SearchResult({required final List<RepositoryItem> items})
       : _items = items;
@@ -273,8 +272,7 @@ class __$$_RepositoryItemCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
-@JsonSerializable(fieldRename: FieldRename.snake)
+@JsonSerializable()
 class _$_RepositoryItem implements _RepositoryItem {
   const _$_RepositoryItem(
       {required this.id,
