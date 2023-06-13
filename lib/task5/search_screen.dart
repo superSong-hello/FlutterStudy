@@ -38,12 +38,14 @@ class _SearchScreenState extends State<SearchScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: TextField(
-          controller: _textEditingController,
-          decoration: InputDecoration(
-            suffixIcon: IconButton(
-              onPressed: _searchRepository,
-              icon: const Icon(Icons.search),
+        title: SafeArea(
+          child: TextField(
+            controller: _textEditingController,
+            decoration: InputDecoration(
+              suffixIcon: IconButton(
+                onPressed: _searchRepository,
+                icon: const Icon(Icons.search),
+              ),
             ),
           ),
         ),
